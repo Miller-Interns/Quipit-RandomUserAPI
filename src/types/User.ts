@@ -22,7 +22,7 @@ export type Login = {
   password: string;
 };
 
-export type Dob = {
+export type DoB = {
   date: string;
   age: number;
 };
@@ -39,11 +39,15 @@ export type User = {
   gender: string;
   email: string;
   login: Login;
-  dob: Dob;
+  dob: DoB;
   nat: string;
   phone: string;
   picture: Picture;
   location: Location;
   username: Login;
   password: Login;
+};
+
+export type Pages = {
+  [page: number]: User[];
 };
