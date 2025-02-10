@@ -8,6 +8,7 @@
   import EmailIcon from '@/assets/icons/email-icon.vue';
   import LocationIcon from '@/assets/icons/location-icon.vue';
   import BirthdayIcon from '@/assets/icons/birthday-icon.vue';
+  import { GENDER } from '@/enums/user-gender';
 
   const { user } = defineProps<{ user: User }>();
   const emit = defineEmits<{ (e: 'close'): void }>();
@@ -28,8 +29,8 @@
           <h2>
             {{ user.name.title }} {{ user.name.first }} {{ user.name.last }}
           </h2>
-          <MaleIcon v-if="user.gender === 'male'" />
-          <FemaleIcon v-else-if="user.gender === 'female'" />
+          <MaleIcon v-if="user.gender === GENDER.Male" />
+          <FemaleIcon v-else-if="user.gender === GENDER.Female" />
         </div>
         <div class="user-body">
           <p>

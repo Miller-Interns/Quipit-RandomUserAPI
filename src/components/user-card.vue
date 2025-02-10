@@ -5,7 +5,7 @@
   import UserModal from '@/components/user-modal.vue';
   import RefreshIcon from '@/assets/icons/refresh-icon.vue';
   import InfoIcon from '@/assets/icons/info-icon.vue';
-
+  import { GENDER } from '@/enums/user-gender';
   import '@/assets/css/user-card.css';
 
   const { setFilter, filteredUsers, nextPage, prevPage, refresh, currentPage } =
@@ -25,9 +25,9 @@
   <div class="main-container">
     <h3>Randomly Generated Users</h3>
     <div class="filters-group">
-      <button @click="setFilter('all')">All</button>
-      <button @click="setFilter('male')">Male</button>
-      <button @click="setFilter('female')">Female</button>
+      <button @click="setFilter(GENDER.All)">All</button>
+      <button @click="setFilter(GENDER.Male)">Male</button>
+      <button @click="setFilter(GENDER.Female)">Female</button>
     </div>
     <div class="user-container">
       <ul class="users-list">
