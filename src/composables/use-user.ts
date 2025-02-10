@@ -1,10 +1,11 @@
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/user-store';
 import type { User } from '@/types/User';
+import { GENDER } from '@/enums/user-gender';
 
 export function useUsers() {
   const userStore = useUserStore();
-  const filter = ref<'all' | 'male' | 'female'>('all');
+  const filter = ref<GENDER>(GENDER.All);
 
   function clearLocalData() {
     userStore.clearPages();
@@ -13,27 +14,17 @@ export function useUsers() {
   async function fetchUsers(page: number, results: number = 10) {
     try {
       const res = await fetch(
-        `https://randomuser.me/api/?page=${page}&results=${results}`
+        `https://randomuser.me/api/?` +
+          new URLSearchParams({
+            page: page.toString(),
+            results: results.toString(),
+          }).toString()
       );
       const data = await res.json();
       const users: User[] = data.results;
       userStore.setPage(page, users);
     } catch (error) {
       console.error('Error fetching users:', error);
-    }
-  }
-
-  async function refreshCurrentPage(results: number = 10) {
-    const currentPage = userStore.currentPage;
-    try {
-      const res = await fetch(
-        `https://randomuser.me/api/?page=${currentPage}&results=${results}`
-      );
-      const data = await res.json();
-      const users: User[] = data.results;
-      userStore.setPage(currentPage, users);
-    } catch (error) {
-      console.error('Error refreshing users:', error);
     }
   }
 
@@ -44,7 +35,7 @@ export function useUsers() {
     return users.filter((user) => user.gender === filter.value);
   });
 
-  function setFilter(newFilter: 'all' | 'male' | 'female') {
+  function setFilter(newFilter: GENDER) {
     if (filter.value !== newFilter) {
       filter.value = newFilter;
       clearLocalData();
@@ -72,7 +63,7 @@ export function useUsers() {
 
   function refresh() {
     clearLocalData();
-    refreshCurrentPage();
+    fetchUsers(userStore.currentPage);
   }
 
   const currentPage = computed(() => userStore.currentPage);
@@ -92,7 +83,6 @@ export function useUsers() {
     setFilter,
     filteredUsers,
     fetchUsers,
-    refreshCurrentPage,
     changePage,
     init,
     nextPage,

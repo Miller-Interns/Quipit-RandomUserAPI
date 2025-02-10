@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import type { User } from '@/types/User';
+import type { Pages, User } from '@/types/User';
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    pages: {} as Record<number, User[]>,
+    pages: {} as Pages,
     currentPage: 1,
   }),
 
